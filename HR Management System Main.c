@@ -7,6 +7,7 @@ void Modify();
 void Delete();
 void employeeAttendanceMarking();
 void employeeAttendanceReport();
+void AssignJobRoles();
 void empwork();
 
 struct employees
@@ -85,7 +86,7 @@ int main(){
             break;
 
         case 8:
-            empwork();
+            AssignJobRoles();
             break;
 
         case 9:
@@ -338,7 +339,7 @@ void employeeAttendanceReport(){
 		fclose(fi);
 }
 
-void empwork(){
+void AssignJobRoles(){
 
 	printf(":::::::::::::::::::::::::::::::::::::::::::\n\n");
 
