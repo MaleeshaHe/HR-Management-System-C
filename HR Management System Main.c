@@ -7,8 +7,7 @@ void Modify();
 void Delete();
 void employeeAttendanceMarking();
 void employeeAttendanceReport();
-void AssignJobRoles();
-void empwork();
+void empjob();
 
 struct employees
     {
@@ -86,7 +85,7 @@ int main(){
             break;
 
         case 8:
-            AssignJobRoles();
+            empjob();
             break;
 
         case 9:
@@ -121,23 +120,23 @@ void addEmployees(){
         int j;
         printf(" Enter Employee Id(100x): ");
         scanf("%d", &j);
-        k=j%1000;
-        employee[k].id = j;
+//        k=j%1000;
+        employee[i].id = j;
 
         printf(" Enter Name: ");
-        scanf("%s", employee[k].name);
+        scanf("%s", employee[i].name);
 
         printf(" Enter Address: ");
-        scanf("%s", employee[k].adders);
+        scanf("%s", employee[i].adders);
 
         printf(" Enter Mobile Number: ");
-        scanf("%s", employee[k].mobile_number);
+        scanf("%s", employee[i].mobile_number);
 
         printf(" Enter Birth day(YYYY.MM.DD):");
-        scanf("%s", employee[k].birth_day);
+        scanf("%s", employee[i].birth_day);
 
         printf(" Enter Basic Sallery: ");
-        scanf("%d", &employee[k].salary);
+        scanf("%d", &employee[i].salary);
 
         printf("\n----------------------------\nContinue Y/N: ");
         scanf(" %c",&op);
@@ -147,18 +146,18 @@ void addEmployees(){
     }while(op=='y');
 
 
-    FILE *cfPtr;
-    cfPtr = fopen("data.txt","w");
+    FILE *fp;
+    fp = fopen("data.txt","w");
 
-    if(cfPtr == NULL)
+    if(fp == NULL)
         printf("Cannot create file\n");
     else
 
     for(x=0;x<i;x++){
-        fprintf(cfPtr,"%d\t%s\t%s\t%s\t%s\t%d\n",employee[x].id,employee[x].name,employee[x].adders,employee[x].mobile_number,employee[x].birth_day,employee[x].salary);
+        fprintf(fp,"%d\t%s\t%s\t%s\t%s\t%d\n",employee[x].id,employee[x].name,employee[x].adders,employee[x].mobile_number,employee[x].birth_day,employee[x].salary);
     }
 
-    fclose(cfPtr);
+    fclose(fp);
 }
 
 void listEmployees(){
@@ -289,7 +288,12 @@ void employeeAttendanceMarking(){
 
 	char op;
 
-		FILE*fi;
+    printf("\n\t\t----------------------------------------\n");
+    printf("\t\t|       Employee Attendance Marking    |\n");
+    printf("\t\t----------------------------------------\n\n");
+
+
+    FILE*fi;
 	fi=fopen("att.txt","w");
 
 	if(fi == NULL){
@@ -297,10 +301,10 @@ void employeeAttendanceMarking(){
 		}
 		printf("Enter date (dd/mm/yy): ");
     	scanf("%s",atten.date);
-		fprintf(fi,"Date: %s\n",atten.date);
-		fprintf(fi,"------------------------------\n");
-		fprintf(fi,"EMP_ID\tName\tAttendance\n");
-		fprintf(fi,"------------------------------\n");
+		fprintf(fi,"Date: %s\n\n",atten.date);
+//		fprintf(fi,"------------------------------\n");
+//		fprintf(fi,"EMP_ID\tName\tAttendance\n");
+//		fprintf(fi,"------------------------------\n");
 	do{
 		printf("---------------------------\n");
 		printf("Employee ID: ");
@@ -311,7 +315,7 @@ void employeeAttendanceMarking(){
 		scanf("%s",atten.att);
 		printf("\n\nContinue ? Y/N : ");
 		scanf(" %c",&op);
-		fprintf(fi,"%s\t%s\t%s\n",atten.empId,atten.name,atten.att);
+		fprintf(fi,"Employee ID   : %s\nEmployee Name :%s\nAttendance    :%s\n\n\n",atten.empId,atten.name,atten.att);
 
 		}
 	while(op=='y');
@@ -321,27 +325,32 @@ void employeeAttendanceMarking(){
 
 void employeeAttendanceReport(){
 
-	FILE *fi;
-	char ch;
-	fi=fopen("att.txt","r");
+    printf("\n\t\t----------------------------------------\n");
+    printf("\t\t|       Employee Attendance Report    |\n");
+    printf("\t\t----------------------------------------\n\n");
 
-	if(fi == NULL){
+	FILE *fp;
+	char ch[500];
+	fp=fopen("att.txt","r+");
+
+	if(fp == NULL){
 			printf("Cannot open the file\n");
 		}
 		else{
-			fscanf(fi,"Date: %s\n",atten.date);
-			do{
-			ch=fgetc(fi);
-			fscanf(fi,"%s\t%s\t%s\n",atten.empId,atten.name,atten.att);
-			printf("%s\t%s\t%s\n",atten.empId,atten.name,atten.att);
-		}while(ch!=EOF);
+			fscanf(fp,"Date: %s\n\n",atten.date);
+			printf("\tDate: %s\n\n",atten.date);
+			while(fgets(ch,500,fp)!=NULL){
+			printf("\t%s",ch);
 		}
-		fclose(fi);
+		}
+		fclose(fp);
 }
 
-void AssignJobRoles(){
+void empjob(){
 
-	printf(":::::::::::::::::::::::::::::::::::::::::::\n\n");
+    printf("\n\t\t---------------------------\n");
+    printf("\t\t|       AssignJobRoles    |\n");
+    printf("\t\t--------------------------\n\n");
 
 	char op;
     int i=0,x=0,k,id,j,m=0,n=0;
