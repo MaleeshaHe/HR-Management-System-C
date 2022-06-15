@@ -1,7 +1,12 @@
-Date: 01.02.22
+Date: 05.02.22
 
-Employee ID   : 1000
+Employee ID   : 1001
 Employee Name :Maleesha
 Attendance    :Pr
+
+
+Employee ID   : 1003
+Employee Name :Kasun
+Attendance    :Ab
 
 

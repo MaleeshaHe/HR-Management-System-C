@@ -5,6 +5,7 @@ void addEmployees();
 void listEmployees();
 void Modify();
 void Delete();
+void salary_report();
 void employeeAttendanceMarking();
 void employeeAttendanceReport();
 void empjob();
@@ -74,6 +75,10 @@ int main(){
 
         case 4:
             Delete();
+            break;
+
+        case 5:
+            salary_report();
             break;
 
         case 6:
@@ -325,6 +330,10 @@ void employeeAttendanceMarking(){
 
 void employeeAttendanceReport(){
 
+    char op;
+
+    do
+    {
     printf("\n\t\t----------------------------------------\n");
     printf("\t\t|       Employee Attendance Report    |\n");
     printf("\t\t----------------------------------------\n\n");
@@ -338,12 +347,16 @@ void employeeAttendanceReport(){
 		}
 		else{
 			fscanf(fp,"Date: %s\n\n",atten.date);
-			printf("\tDate: %s\n\n",atten.date);
+			printf("\Date:%s\n\n",atten.date);
 			while(fgets(ch,500,fp)!=NULL){
-			printf("\t%s",ch);
+			printf("\t %s",ch);
 		}
 		}
 		fclose(fp);
+
+    printf("\n\n----------------------------\nClose to press Q: ");
+    scanf(" %c",&op);
+    }while(op!='q');
 }
 
 void empjob(){
@@ -370,20 +383,20 @@ void empjob(){
         }
     }
 
-	printf(":::::::::::::::::::::::::::::::::::::::::::\n\n");
+	printf("-----------------------------------------------------\n\n");
 	printf("Enter Employeer ID You Want select  - ");
 	scanf("%d",&id);
 
-	printf("\n\n================================================\n");
+	printf("\n\n-----------------------------------------------------\n");
 	printf("Enter employeer position in these list\n");
-	printf("================================================\n");
+	printf("-----------------------------------------------------\n");
 	printf("    -Business Analist - BA\n");
 	printf("    -Computer Service Technition - CST\n");
 	printf("    -Cyber Security Specialist - CSS \n");
 	printf("    -Data Analyst - DA \n");
 	printf("    -Data Centre Technician - DCT \n");
 	printf("    -Database Administrator - DBA \n");
-	printf("================================================\n\n");
+	printf("------------------------------------------------------\n\n");
 
 //	cfPtr = fopen("data.txt","a");
 
@@ -423,4 +436,33 @@ void empjob(){
 
     }
 	while(op!='q');
+}
+
+void salary_report()
+{
+    printf("\n\t\t-------------------------------------\n");
+    printf("\t\t|       Employee's Salary Report    |\n");
+    printf("\t\t-------------------------------------\n\n");
+
+	FILE *cfptr;
+	cfptr = fopen("data.txt","r");
+	char op;
+	int insurance=2000;
+	int net_salary;
+	int i=0;
+
+    do{
+	while(i<100)
+	{
+		net_salary=employee[i].salary-insurance;
+		printf("\tID                 : %d\n\tEmployee Name      : %s\n\tMobile Number      : %s\n\tBasic Sallery (Rs) : %d\n\tInsurance fee (Rs) : %d\n\tNet Salary    (Rs) : %d\n\n",employee[i].id,employee[i].name,employee[i].mobile_number,employee[i].salary,insurance,net_salary);
+		i++;
+		if(employee[i].id==0)
+		{
+			break;
+		}
+	}
+	printf("\n\n----------------------------\nClose to press Q: ");
+    scanf(" %c",&op);
+    }while(op!='q');
 }
