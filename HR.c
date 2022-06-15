@@ -335,7 +335,7 @@ void employeeAttendanceReport(){
     do
     {
     printf("\n\t\t----------------------------------------\n");
-    printf("\t\t|       Employee Attendance Report    |\n");
+    printf("\t\t|       Employee Attendance Report     |\n");
     printf("\t\t----------------------------------------\n\n");
 
 	FILE *fp;
