@@ -44,7 +44,7 @@ int main(){
 
     signup();
 
-    login();
+
 
     int Option;
 
@@ -165,7 +165,7 @@ void addEmployees(){
 
         i++;
 
-    }while(op=='y');
+    }while(op=='y'||op=='Y');
 
 
     FILE *fp;
@@ -222,11 +222,14 @@ void Modify(){
     printf("\t\t------------------------------\n\n");
 
     int accNum,i=0,Option;
+    char op;
 
-    printf("Enter Employee ID : ");
+    do{
+
+	printf("Enter Employee ID : ");
     scanf("%d",&accNum);
 
-    while(i<100){
+
         if(accNum==employee[i].id){
 
             printf("\n\t[1]  Name\n");
@@ -237,39 +240,41 @@ void Modify(){
             printf(" Select your Option : ");
             scanf("%d",&Option);
 
-            do{
-                if(Option==1){
+
+
+            switch(Option)
+            {
+				case(1):
                     printf(" Enter your new Name : ");
                     scanf("%s",employee[i].name);
+                    break;
 
-                }
-                else if(Option==2){
+
+                case(2):
                     printf(" Enter your new Adders : ");
                     scanf("%s",employee[i].adders);
+                    break;
 
-                }
-                else if(Option==3){
+
+                case(3):
                     printf(" Enter your new Mobile Number : ");
                     scanf("%s",employee[i].mobile_number);
+                    break;
 
-                }
-                printf("\n Select your Option : ");
-                scanf("%d",&Option);
+                default:
+                	printf("Enter vaild number from menu");
+                	Modify();
+				}
 
-            }while(Option!=4);
-            break;
+            }
 
-        }
-        else{
-            i++;
-        }
-    }
-    if(i==100){
-        printf("\n***Invalid ID number. Please enter correct ID***\n\n");
-        Modify();
-    }
-}
 
+        	printf("\n\n----------------------------\nClose to press Q: ");
+			scanf(" %c",&op);
+			}while(op!='q');
+
+
+	}
 
 void Delete(){
 
@@ -494,13 +499,15 @@ void login(){
 
     do{
     printf("Enter Username : ");
-    scanf("%s",&loguser);
+    scanf("%s",loguser);
     printf("Enter password : ");
-    scanf("%s",&logpass);
-    valueuser=strcmp(user,loguser);
+    scanf("%s",logpass);
+
+    //compare username and password with older username and password
+	valueuser=strcmp(user,loguser);
     valuepass=strcmp(pass,logpass);
 
-
+//accept len>8 and password and username match
      if(valueuser==0 && valuepass==0){
 
          printf("Loggin Success");
@@ -544,23 +551,32 @@ void signup(){
             exit(1);
         }
 
-
+		// account details file for use in login
         fscanf(logger,"%c",&lg);
         u=fopen("ufile.txt","r+");
         p=fopen("pfile.txt","r+");
         fscanf(u,"%s",user);
         fscanf(p,"%s",pass);
+        //checking already sign up and login
         if(lg=='y'){
 
                 fclose(logger);
                 login();
 
                 }
-
+		//if dont have account
         else if(lg=='n'){
+        fclose(u);
+        fclose(p);
+        u=fopen("ufile.txt","w");
+        p=fopen("pfile.txt","w");
+        fclose(u);
+        fclose(p);
+        u=fopen("ufile.txt","r+");
+        p=fopen("pfile.txt","r+");
         printf("----------Sign up ---------- \n\n");
         printf("Enter Username : ");
-        scanf("%s",&user);
+        scanf("%s",user);
 
 
 
@@ -568,11 +584,11 @@ do{
     loggerw=fopen("log.txt","w");
 
     printf("Enter password : ");
-    scanf("%s",&pass);
+    scanf("%s",pass);
 
     printf("Re-Enter password : ");
-    scanf("%s",&pass2);
-
+    scanf("%s",pass2);
+	//check password validation
     len = strlen(pass);
     value=strcmp(pass,pass2);
 
@@ -621,6 +637,7 @@ void changuser(){
     int compare1,compare2;
     char oldu[20],oldp[20],newu[20],newp[20],olduserr[20],oldpasss[20];
 
+	//read file
 	ouser=fopen("ufile.txt","r");
 	opass=fopen("pfile.txt","r");
 	fscanf(ouser,"%s",olduserr);
@@ -632,7 +649,7 @@ void changuser(){
 	scanf("%s",oldu);
 	printf("Enter old Password");
 	scanf("%s",oldp);
-
+	//password validation part
 	compare1=strcmp(oldu,olduserr);
 	if(compare1==0){
 			compare2=strcmp(oldp,oldpasss);
