@@ -1,6 +1,14 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 
+	int m=8;
+	FILE *u,*p,*logger,*loggerw;
+	char user[20],pass[20],pass2[20],value,len,lg;
+
+void changuser();
+void signup();
+void login();
 void addEmployees();
 void listEmployees();
 void Modify();
@@ -34,6 +42,10 @@ struct attendance
 
 int main(){
 
+    signup();
+
+
+
     int Option;
 
     do{
@@ -52,7 +64,8 @@ int main(){
     printf("\t[6]  Employee's Attendance Marking\n");
     printf("\t[7]  Employee's Attendance Report\n");
     printf("\t[8]  Assign Job Roles\n");
-    printf("\t[9]  Exit\n\n");
+    printf("\t[9]  Change User name & password\n");
+    printf("\t[10]  Exit\n\n");
 
     printf(" Select your Option : ");
     scanf("%d",&Option);
@@ -94,6 +107,10 @@ int main(){
             break;
 
         case 9:
+         	changuser();
+            break;
+
+        case 10:
             exit(1);
 
         default:
@@ -148,7 +165,7 @@ void addEmployees(){
 
         i++;
 
-    }while(op=='y');
+    }while(op=='y'||op=='Y');
 
 
     FILE *fp;
@@ -205,11 +222,14 @@ void Modify(){
     printf("\t\t------------------------------\n\n");
 
     int accNum,i=0,Option;
+    char op;
 
-    printf("Enter Employee ID : ");
+    do{
+
+	printf("Enter Employee ID : ");
     scanf("%d",&accNum);
 
-    while(i<100){
+
         if(accNum==employee[i].id){
 
             printf("\n\t[1]  Name\n");
@@ -220,39 +240,41 @@ void Modify(){
             printf(" Select your Option : ");
             scanf("%d",&Option);
 
-            do{
-                if(Option==1){
+
+
+            switch(Option)
+            {
+				case(1):
                     printf(" Enter your new Name : ");
                     scanf("%s",employee[i].name);
+                    break;
 
-                }
-                else if(Option==2){
+
+                case(2):
                     printf(" Enter your new Adders : ");
                     scanf("%s",employee[i].adders);
+                    break;
 
-                }
-                else if(Option==3){
+
+                case(3):
                     printf(" Enter your new Mobile Number : ");
                     scanf("%s",employee[i].mobile_number);
+                    break;
 
-                }
-                printf("\n Select your Option : ");
-                scanf("%d",&Option);
+                default:
+                	printf("Enter vaild number from menu");
+                	Modify();
+				}
 
-            }while(Option!=4);
-            break;
+            }
 
-        }
-        else{
-            i++;
-        }
-    }
-    if(i==100){
-        printf("\n***Invalid ID number. Please enter correct ID***\n\n");
-        Modify();
-    }
-}
 
+        	printf("\n\n----------------------------\nClose to press Q: ");
+			scanf(" %c",&op);
+			}while(op!='q');
+
+
+	}
 
 void Delete(){
 
@@ -335,7 +357,7 @@ void employeeAttendanceReport(){
     do
     {
     printf("\n\t\t----------------------------------------\n");
-    printf("\t\t|       Employee Attendance Report     |\n");
+    printf("\t\t|       Employee Attendance Report    |\n");
     printf("\t\t----------------------------------------\n\n");
 
 	FILE *fp;
@@ -362,7 +384,7 @@ void employeeAttendanceReport(){
 void empjob(){
 
     printf("\n\t\t---------------------------\n");
-    printf("\t\t|       AssignJobRoles    |\n");
+    printf("\t\t|       Assign Job Roles    |\n");
     printf("\t\t--------------------------\n\n");
 
 	char op;
@@ -465,4 +487,196 @@ void salary_report()
 	printf("\n\n----------------------------\nClose to press Q: ");
     scanf(" %c",&op);
     }while(op!='q');
+}
+
+void login(){
+    char value,loguser[20],logpass[20],logpass2[20],valueuser,valuepass;
+    int m=8;
+    printf("---------------------------------------------------------------\n\n");
+        printf(" **** Human Resource Management System ****\n\n");
+    printf("\n----------Login Here---------\n\n");
+
+
+    do{
+    printf("Enter Username : ");
+    scanf("%s",loguser);
+    printf("Enter password : ");
+    scanf("%s",logpass);
+
+    //compare username and password with older username and password
+	valueuser=strcmp(user,loguser);
+    valuepass=strcmp(pass,logpass);
+
+//accept len>8 and password and username match
+     if(valueuser==0 && valuepass==0){
+
+         printf("Loggin Success");
+            break;
+
+       }
+
+        else{
+
+       printf("\nUsername or Password Incorrect\n \n");
+
+            }
+
+
+
+
+
+
+    }
+    while(m!=0);
+
+}
+
+void signup(){
+
+        char log_y_val='y';
+        //logo part
+        printf("---------------------------------------------------------------\n\n");
+        printf(" **** Human Resource Management System ****\n\n");
+        printf("---------------------------------------------------------------\n\n");
+
+           //log file open
+        logger=fopen("log.txt","r");
+        // if log file doesnt have ,create newone
+        if(logger==NULL){
+            logger=fopen("log.txt","w");
+            fprintf(logger,"n");
+            fclose(logger);
+            logger=fopen("log.txt","r");
+            printf("installing file successfull \nplease log again....");
+            exit(1);
+        }
+
+		// account details file for use in login
+        fscanf(logger,"%c",&lg);
+        u=fopen("ufile.txt","r+");
+        p=fopen("pfile.txt","r+");
+        fscanf(u,"%s",user);
+        fscanf(p,"%s",pass);
+        //checking already sign up and login
+        if(lg=='y'){
+
+                fclose(logger);
+                login();
+
+                }
+		//if dont have account
+        else if(lg=='n'){
+        fclose(u);
+        fclose(p);
+        u=fopen("ufile.txt","w");
+        p=fopen("pfile.txt","w");
+        fclose(u);
+        fclose(p);
+        u=fopen("ufile.txt","r+");
+        p=fopen("pfile.txt","r+");
+        printf("----------Sign up ---------- \n\n");
+        printf("Enter Username : ");
+        scanf("%s",user);
+
+
+
+do{
+    loggerw=fopen("log.txt","w");
+
+    printf("Enter password : ");
+    scanf("%s",pass);
+
+    printf("Re-Enter password : ");
+    scanf("%s",pass2);
+	//check password validation
+    len = strlen(pass);
+    value=strcmp(pass,pass2);
+
+       if(value==0){
+             len = strlen(pass);
+            if(len<8){
+                printf("Length is too short\n \n");
+
+                     }
+            else{
+
+
+                fprintf(u,"%s",user);
+                fprintf(p,"%s",pass);
+
+
+                fprintf(loggerw,"%c",log_y_val);
+                fclose(logger);
+                printf("Account create Succesfully \n");
+                login();
+
+                break;
+
+		  	}
+	}
+   	else{
+
+   printf("Password Does not Match\n\n Ty Again...\n \n");
+        }
+
+
+	}
+	while(m!=0);
+}
+
+
+
+    fclose(u);
+    fclose(p);
+
+}
+
+void changuser(){
+
+    FILE *ouser,*opass;
+    int compare1,compare2;
+    char oldu[20],oldp[20],newu[20],newp[20],olduserr[20],oldpasss[20];
+
+	//read file
+	ouser=fopen("ufile.txt","r");
+	opass=fopen("pfile.txt","r");
+	fscanf(ouser,"%s",olduserr);
+	fscanf(opass,"%s",oldpasss);
+
+	printf("---------------------------------------------------------------\n\n");
+    printf(" **** Human Resource Management System ****\n\n");
+	printf("Enter old usename");
+	scanf("%s",oldu);
+	printf("Enter old Password");
+	scanf("%s",oldp);
+	//password validation part
+	compare1=strcmp(oldu,olduserr);
+	if(compare1==0){
+			compare2=strcmp(oldp,oldpasss);
+					if(compare2==0){
+							fclose(ouser);
+							fclose(opass);
+							ouser=fopen("ufile.txt","w");
+							opass=fopen("pfile.txt","w");
+
+						printf("Enter new username");
+						scanf("%s",newu);
+						printf("Enter new password");
+						scanf("%s",newp);
+						fprintf(ouser,"%s",newu);
+						fprintf(opass,"%s",newp);
+						fclose(ouser);
+						fclose(opass);
+					}
+					else if(compare2==1){
+						printf("username or password incorrect");
+					}
+	}
+
+	else if(compare1==1){
+        printf("username or password incorrect");
+	}
+
+	fclose(ouser);
+	fclose(opass);
 }
